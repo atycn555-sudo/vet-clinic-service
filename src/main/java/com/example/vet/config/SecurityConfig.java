@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -40,22 +43,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        // RUTAS PÚBLICAS
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/").permitAll()
 
-                        // ============================================================
-                        // CREACIÓN (POST) - USUARIO y ADMIN
-                        // ============================================================
+                        // USER + ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/v1/clients/**", "/api/v1/pets/**")
                         .hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/medical-history/**")
-                        .hasAnyRole("USER", "ADMIN")
-
-                        // ============================================================
-                        // LECTURA (GET) - USUARIO y ADMIN
-                        // ============================================================
+                        .requestMatchers(HttpMethod.POST, "/api/v1/medical-history/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET,
                                 "/api/v1/products/**",
                                 "/api/v1/services/**",
@@ -68,9 +63,7 @@ public class SecurityConfig {
                                 "/api/v1/medical-history/**")
                         .hasAnyRole("USER", "ADMIN")
 
-                        // ============================================================
                         // SOLO ADMIN
-                        // ============================================================
                         .requestMatchers(HttpMethod.POST,
                                 "/api/v1/species/**",
                                 "/api/v1/vaccines/**",
@@ -82,19 +75,16 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
 
-                        // ============================================================
                         // DEFAULT
-                        // ============================================================
                         .anyRequest().authenticated())
-                // 👇 Activa login básico en navegador
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 
-    // Usuarios en memoria para pruebas
+    // ✅ Usuarios en memoria
     @Bean
-    public UserDetailsService userDetailsService(org.springframework.security.crypto.password.PasswordEncoder encoder) {
+    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails admin = User.withUsername("admin")
                 .password(encoder.encode("1234"))
                 .roles("ADMIN")
@@ -106,6 +96,16 @@ public class SecurityConfig {
                 .build();
 
         return new InMemoryUserDetailsManager(admin, user);
+    }
+
+    // ✅ AuthenticationProvider configurado aquí
+    @Bean
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
+            PasswordEncoder encoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(encoder);
+        return authProvider;
     }
 
     @Bean
