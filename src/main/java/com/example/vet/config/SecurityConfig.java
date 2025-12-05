@@ -11,16 +11,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.example.vet.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/users/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll() // 👈 público para registro
 
                         // USER + ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/v1/clients/**", "/api/v1/pets/**")
@@ -83,28 +82,18 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ Usuarios en memoria
+    // ✅ PasswordEncoder para encriptar contraseñas
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        UserDetails admin = User.withUsername("admin")
-                .password(encoder.encode("1234"))
-                .roles("ADMIN")
-                .build();
-
-        UserDetails user = User.withUsername("user")
-                .password(encoder.encode("1234"))
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-    // ✅ AuthenticationProvider configurado aquí
+    // ✅ AuthenticationProvider usando CustomUserDetailsService
     @Bean
-    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
-            PasswordEncoder encoder) {
+    public AuthenticationProvider authenticationProvider(CustomUserDetailsService customUserDetailsService,
+                                                         PasswordEncoder encoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(customUserDetailsService);
         authProvider.setPasswordEncoder(encoder);
         return authProvider;
     }
@@ -114,8 +103,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        configuration
-                .setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
