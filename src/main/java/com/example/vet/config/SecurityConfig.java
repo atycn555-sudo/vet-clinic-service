@@ -82,7 +82,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ PasswordEncoder para encriptar contraseñas
+    // ✅ PasswordEncoder único
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
