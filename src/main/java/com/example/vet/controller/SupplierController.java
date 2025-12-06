@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/suppliers")
-@Tag(name = "Suppliers", description = "API para gestionar Proveedores")
+@Tag(name = "Suppliers", description = "API for managing Suppliers")
 @CrossOrigin(origins = "*")
 public class SupplierController {
 
@@ -36,7 +36,7 @@ public class SupplierController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = "*") // Para que pasen las pruebas de CORS
+    @CrossOrigin(origins = "*")
     public ResponseEntity<List<SupplierResponseDTO>> getAllSuppliers() {
         List<Supplier> suppliers = supplierService.findAllSuppliers();
         List<SupplierResponseDTO> dtos = suppliers.stream()
