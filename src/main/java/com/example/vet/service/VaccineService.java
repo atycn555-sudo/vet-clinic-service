@@ -25,7 +25,7 @@ public class VaccineService {
     public Vaccine saveVaccine(VaccineRequestDTO requestDTO) {
 
         Pet pet = petRepository.findById(requestDTO.getIdPet())
-                .orElseThrow(() -> new RuntimeException("Mascota no encontrada con id: " + requestDTO.getIdPet()));
+                .orElseThrow(() -> new RuntimeException("Pet not found with id: " + requestDTO.getIdPet()));
 
         Vaccine newVaccine = new Vaccine();
         newVaccine.setVaccineName(requestDTO.getVaccineName());
