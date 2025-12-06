@@ -19,7 +19,6 @@ public class PetService {
     private final ClientRepository clientRepository;
     private final ModelMapper modelMapper;
 
-    // Constructor Manual (Sin Lombok)
     public PetService(PetRepository petRepository, ClientRepository clientRepository, ModelMapper modelMapper) {
         this.petRepository = petRepository;
         this.clientRepository = clientRepository;
@@ -34,14 +33,13 @@ public class PetService {
 
     public PetResponseDTO getById(Integer id) {
         Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Pet not found"));
         return modelMapper.map(pet, PetResponseDTO.class);
     }
 
     public PetResponseDTO save(PetRequestDTO request) {
-        // Buscamos al dueño (Cliente)
         Client client = clientRepository.findById(request.getClientId())
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         Pet pet = modelMapper.map(request, Pet.class);
         pet.setClient(client);
@@ -52,18 +50,16 @@ public class PetService {
 
     public PetResponseDTO update(Integer id, PetRequestDTO request) {
         Pet pet = petRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Pet not found"));
 
-        // Verificamos si cambió de dueño
-        // CORRECCIÓN AQUÍ: Usamos .getId() en vez de .getIdClient()
         if (pet.getClient() != null && !pet.getClient().getId().equals(request.getClientId())) {
             Client client = clientRepository.findById(request.getClientId())
-                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                    .orElseThrow(() -> new RuntimeException("Customer not found"));
             pet.setClient(client);
         }
 
         modelMapper.map(request, pet);
-        pet.setId(id); // Aseguramos el ID
+        pet.setId(id);
 
         Pet updatedPet = petRepository.save(pet);
         return modelMapper.map(updatedPet, PetResponseDTO.class);
@@ -71,7 +67,7 @@ public class PetService {
 
     public void delete(Integer id) {
         if (!petRepository.existsById(id)) {
-            throw new RuntimeException("Mascota no encontrada");
+            throw new RuntimeException("Pet not found");
         }
         petRepository.deleteById(id);
     }
