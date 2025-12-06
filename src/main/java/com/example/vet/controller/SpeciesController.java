@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping; // <-- 1. IMPORTA ESTA CLASE
-import org.springframework.web.bind.annotation.PutMapping; // <-- 1. IMPORTA ESTA CLASE
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/species")
-@Tag(name = "Species", description = "API para gestionar Especies de mascotas")
+@Tag(name = "Species", description = "API for managing pet species")
 @CrossOrigin(origins = "*")
 public class SpeciesController {
 
@@ -42,19 +42,17 @@ public class SpeciesController {
         Species species = modelMapper.map(requestDTO, Species.class);
         Species newSpecies = speciesService.saveSpecies(species);
 
-        // --- 2. CONSTRUYE Y AÑADE LA CABECERA LOCATION ---
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(newSpecies.getIdSpecies())
                 .toUri();
         
-        // Devuelve 201 Created, la cabecera Location y el body
         return ResponseEntity.created(location).body(convertToDto(newSpecies));
     }
 
     @GetMapping
-    @CrossOrigin(origins = "*") // <-- 3. AÑADE ESTA ANOTACIÓN PARA LA PRUEBA DE CORS
+    @CrossOrigin(origins = "*")
     public ResponseEntity<List<SpeciesResponseDTO>> getAllSpecies() {
         List<Species> speciesList = speciesService.findAllSpecies();
         List<SpeciesResponseDTO> dtos = speciesList.stream()
@@ -85,7 +83,6 @@ public class SpeciesController {
                 : ResponseEntity.notFound().build();
     }
     
-    // --- Métodos de Conversión (el nombre debe ser único) ---
     private SpeciesResponseDTO convertToDto(Species species) {
         return modelMapper.map(species, SpeciesResponseDTO.class);
     }
