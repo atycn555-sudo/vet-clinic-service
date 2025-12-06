@@ -25,7 +25,6 @@ public class MedicalHistoryController {
 
     private final MedicalHistoryService medicalHistoryService;
 
-    // Constructor Manual
     public MedicalHistoryController(MedicalHistoryService medicalHistoryService) {
         this.medicalHistoryService = medicalHistoryService;
     }
@@ -46,22 +45,18 @@ public class MedicalHistoryController {
         return ResponseEntity.ok(medicalHistoryService.getById(id));
     }
 
-    // Método para buscar por mascota
     @GetMapping("/pet/{petId}")
     public ResponseEntity<List<MedicalHistoryResponseDTO>> getByPetId(@PathVariable Integer petId) {
-        // En el servicio se llama 'getByPetId'
         return ResponseEntity.ok(medicalHistoryService.getByPetId(petId));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<MedicalHistoryResponseDTO> update(@PathVariable Integer id, @RequestBody @Valid MedicalHistoryRequestDTO request) {
-        // En el servicio se llama 'update'
         return ResponseEntity.ok(medicalHistoryService.update(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        // En el servicio se llama 'delete'
         medicalHistoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
