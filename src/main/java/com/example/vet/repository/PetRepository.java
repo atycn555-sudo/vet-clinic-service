@@ -10,8 +10,6 @@ import com.example.vet.model.Pet;
 @Repository
 public interface PetRepository extends JpaRepository<Pet, Integer> {
 
-    // Método seguro para buscar mascotas por ID de Cliente
     List<Pet> findByClientId(Integer clientId); 
     
-    // Y cualquier otro método que no use la ruta rota de AppUser/Email.
 }
