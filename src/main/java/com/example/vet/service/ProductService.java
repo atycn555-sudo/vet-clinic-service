@@ -30,13 +30,12 @@ public class ProductService {
 
     public Product saveProduct(ProductRequestDTO requestDTO) {
         Product product = new Product();
-        // CORRECCIÓN: Usamos setProductName
         product.setProductName(requestDTO.getProductName());
         product.setPrice(requestDTO.getPrice());
         product.setStock(requestDTO.getStock());
         
         Supplier supplier = supplierRepository.findById(requestDTO.getIdSupplier())
-                .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Supplier not found"));
         product.setSupplier(supplier);
 
         return productRepository.save(product);
@@ -53,7 +52,6 @@ public class ProductService {
     }
 
     public List<ProductResponseDTO> findByProductName(String name) {
-        // CORRECCIÓN: El repositorio también cambia de nombre
         return productRepository.findByProductNameContainingIgnoreCase(name).stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
@@ -67,14 +65,13 @@ public class ProductService {
 
     public Optional<Product> updateProduct(Integer id, ProductRequestDTO requestDTO) {
         return productRepository.findById(id).map(existingProduct -> {
-            // CORRECCIÓN: Usamos setProductName
             existingProduct.setProductName(requestDTO.getProductName());
             existingProduct.setPrice(requestDTO.getPrice());
             existingProduct.setStock(requestDTO.getStock());
 
             if (!existingProduct.getSupplier().getIdSupplier().equals(requestDTO.getIdSupplier())) {
                 Supplier newSupplier = supplierRepository.findById(requestDTO.getIdSupplier())
-                        .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
+                        .orElseThrow(() -> new EntityNotFoundException("Supplier not found"));
                 existingProduct.setSupplier(newSupplier);
             }
             return productRepository.save(existingProduct);
@@ -92,7 +89,6 @@ public class ProductService {
     private ProductResponseDTO convertToResponseDTO(Product product) {
         ProductResponseDTO dto = new ProductResponseDTO();
         dto.setIdProduct(product.getIdProduct());
-        // CORRECCIÓN: Usamos getProductName
         dto.setProductName(product.getProductName());
         dto.setPrice(product.getPrice());
         dto.setStock(product.getStock());
