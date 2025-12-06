@@ -6,7 +6,7 @@ import com.example.vet.model.Vaccine;
 import com.example.vet.service.VaccineService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid; // <-- 1. IMPORTA ESTA ANOTACIÓN
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/vaccines")
-@Tag(name = "Vaccines", description = "API para gestionar Registros de Vacunas")
+@Tag(name = "Vaccines", description = "API for managing Vaccine Registries")
 @CrossOrigin(origins = "*")
 public class VaccineController {
 
@@ -29,12 +29,11 @@ public class VaccineController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Operation(summary = "Registrar una nueva vacuna para una mascota")
+    @Operation(summary = "Register a new vaccine for a pet")
     @PostMapping
-    public ResponseEntity<VaccineResponseDTO> createVaccine(@Valid @RequestBody VaccineRequestDTO requestDTO) { // <-- 2. AÑADE @Valid
+    public ResponseEntity<VaccineResponseDTO> createVaccine(@Valid @RequestBody VaccineRequestDTO requestDTO) {
         Vaccine newVaccine = vaccineService.saveVaccine(requestDTO);
 
-        // --- 3. CONSTRUYE Y AÑADE LA CABECERA LOCATION ---
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -44,9 +43,9 @@ public class VaccineController {
         return ResponseEntity.created(location).body(convertToDto(newVaccine));
     }
 
-    @Operation(summary = "Obtener una lista de todos los registros de vacunas")
+    @Operation(summary = "Obtain a list of all vaccine records")
     @GetMapping
-    @CrossOrigin(origins = "*") // <-- 4. AÑADE ESTA ANOTACIÓN PARA LA PRUEBA DE CORS
+    @CrossOrigin(origins = "*")
     public ResponseEntity<List<VaccineResponseDTO>> getAllVaccines() {
         List<Vaccine> vaccines = vaccineService.findAllVaccines();
         List<VaccineResponseDTO> dtos = vaccines.stream()
@@ -55,9 +54,8 @@ public class VaccineController {
         return ResponseEntity.ok(dtos);
     }
 
-    // ... (El resto de los métodos se quedan igual, pero usando ResponseEntity para ser consistentes) ...
     
-    @Operation(summary = "Obtener un registro de vacuna por su ID")
+    @Operation(summary = "Obtain a vaccination record using your ID")
     @GetMapping("/{id}")
     public ResponseEntity<VaccineResponseDTO> getVaccineById(@PathVariable Integer id) {
         return vaccineService.findVaccineById(id)
