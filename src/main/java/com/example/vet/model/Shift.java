@@ -1,9 +1,9 @@
 package com.example.vet.model;
 
 import java.time.LocalDate;
-import java.time.LocalTime; // O Date, según lo tengas
+import java.time.LocalTime;
 
-import jakarta.persistence.Entity; // O String, según lo tengas
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +19,6 @@ public class Shift {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // Asegúrate de que los tipos de fecha coincidan con lo que usas (LocalDate/String)
     private LocalDate date; 
     private LocalTime startTime;
     private LocalTime endTime;
@@ -28,7 +27,6 @@ public class Shift {
     @JoinColumn(name = "veterinario_id")
     private Veterinarian veterinarian;
 
-    // --- CONSTRUCTORES ---
     public Shift() {
     }
 
@@ -40,7 +38,6 @@ public class Shift {
         this.veterinarian = veterinarian;
     }
 
-    // --- GETTERS Y SETTERS MANUALES (OBLIGATORIOS) ---
 
     public Integer getId() {
         return id;
