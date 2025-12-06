@@ -24,22 +24,19 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        // ⚠️ En Basic Auth, Spring valida automáticamente.
-        // Aquí devolvemos un objeto de respuesta de ejemplo.
         LoginResponse response = new LoginResponse(
                 "Login exitoso",
                 request.getUsername(),
-                "USER" // En real, se obtendría del contexto de seguridad
+                "USER"
         );
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
-        // ✅ Crear y guardar el usuario en la BD
         UserEntity user = new UserEntity();
         user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword())); // encriptar contraseña
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
 
         userRepository.save(user);
