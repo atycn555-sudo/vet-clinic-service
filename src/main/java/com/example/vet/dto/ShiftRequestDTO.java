@@ -10,7 +10,6 @@ public class ShiftRequestDTO {
     @NotNull private LocalTime endTime;
     @NotNull private Integer idVeterinarian;
 
-    // Getters y Setters
     public String getDayOfWeek() { return dayOfWeek; }
     public void setDayOfWeek(String dayOfWeek) { this.dayOfWeek = dayOfWeek; }
     public LocalTime getStartTime() { return startTime; }
