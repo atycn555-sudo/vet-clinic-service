@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public class AddressRequestDTO {
 
-    @NotBlank(message = "La calle no puede estar vacía")
+    @NotBlank(message = "The street cannot be empty.")
     @Size(max = 100)
     private String street;
 
@@ -15,14 +15,13 @@ public class AddressRequestDTO {
     @Size(max = 100)
     private String neighborhood;
 
-    @NotBlank(message = "La ciudad no puede estar vacía")
+    @NotBlank(message = "The city cannot be empty")
     @Size(max = 100)
     private String city;
 
     @Size(max = 10)
     private String zipCode;
 
-    // Getters y Setters manuales
     public String getStreet() { return street; }
     public void setStreet(String street) { this.street = street; }
     public String getExternalNumber() { return externalNumber; }
