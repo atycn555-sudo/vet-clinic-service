@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/services")
-@Tag(name = "Clinic Services", description = "API para gestionar los Servicios de la Clínica")
+@Tag(name = "Clinic Services", description = "API to manage Clinic Services")
 public class ClinicServiceController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class ClinicServiceController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @Operation(summary = "Obtener un servicio por su ID")
+    @Operation(summary = "Get a service by your ID")
     @GetMapping("/{id}")
     public ResponseEntity<ClinicServiceResponseDTO> getClinicServiceById(@PathVariable Integer id) {
         return clinicServiceService.findClinicServiceById(id)
@@ -52,7 +52,7 @@ public class ClinicServiceController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @Operation(summary = "Buscar servicios por nombre")
+    @Operation(summary = "Search for services by name")
     @GetMapping("/search/{name}")
     public ResponseEntity<List<ClinicServiceResponseDTO>> getClinicServicesByName(@PathVariable String name) {
         List<ClinicService> services = clinicServiceService.findClinicServicesByName(name);
@@ -62,7 +62,7 @@ public class ClinicServiceController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
-    @Operation(summary = "Actualizar un servicio existente")
+    @Operation(summary = "Update an existing service")
     @PutMapping("/{id}")
     public ResponseEntity<ClinicServiceResponseDTO> updateClinicService(@PathVariable Integer id, @RequestBody ClinicServiceRequestDTO requestDTO) {
         ClinicService serviceDetails = modelMapper.map(requestDTO, ClinicService.class);
