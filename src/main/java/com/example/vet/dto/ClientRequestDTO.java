@@ -5,28 +5,24 @@ import jakarta.validation.constraints.NotNull;
 
 public class ClientRequestDTO {
 
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotBlank(message = "Name is required")
     private String firstName;
 
-    @NotBlank(message = "El apellido es obligatorio")
+    @NotBlank(message = "The lastName is required")
     private String lastName;
 
     private String phone;
 
-    // El email ya NO es obligatorio aquí (puede venir nulo)
     private String email;
 
-    @NotNull(message = "El ID de usuario es obligatorio")
+    @NotNull(message = "User ID is required")
     private Integer userId;
 
-    // Recibimos la dirección anidada para crearla junto con el cliente
     private AddressRequestDTO address;
 
-    // --- CONSTRUCTOR ---
     public ClientRequestDTO() {
     }
 
-    // --- GETTERS Y SETTERS MANUALES ---
 
     public String getFirstName() {
         return firstName;
