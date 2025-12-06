@@ -9,10 +9,8 @@ public class PetResponseDTO {
     private Integer idSpecies;
     private Integer idClient;
     
-    // --- CAMPO NUEVO ---
-    private String ownerName; // Nombre del dueño
+    private String ownerName;
 
-    // Getters y Setters normales...
     public Integer getIdPet() { return idPet; }
     public void setIdPet(Integer idPet) { this.idPet = idPet; }
     public String getName() { return name; }
@@ -26,7 +24,6 @@ public class PetResponseDTO {
     public Integer getIdClient() { return idClient; }
     public void setIdClient(Integer idClient) { this.idClient = idClient; }
     
-    // Nuevo Getter/Setter
     public String getOwnerName() { return ownerName; }
     public void setOwnerName(String ownerName) { this.ownerName = ownerName; }
 }
