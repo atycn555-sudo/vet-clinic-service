@@ -25,7 +25,6 @@ public class InvoiceController {
 
     private final InvoiceService invoiceService;
 
-    // Constructor Manual
     public InvoiceController(InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
     }
@@ -45,7 +44,6 @@ public class InvoiceController {
         return ResponseEntity.ok(invoiceService.getById(id));
     }
 
-    // Comentamos métodos que no existen en el servicio base (ej. por fecha o cliente)
     /*
     @GetMapping("/client/{clientId}")
     public ResponseEntity<List<InvoiceResponseDTO>> getByClientId(@PathVariable Integer clientId) {
