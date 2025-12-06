@@ -2,7 +2,7 @@ package com.example.vet.model;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity; // Asegúrate de usar LocalDate si así lo tienes en el DTO
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,17 +25,14 @@ public class MedicalHistory {
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
-    // --- CONSTRUCTOR VACÍO ---
     public MedicalHistory() {
     }
-
-    // --- GETTERS Y SETTERS MANUALES (OBLIGATORIOS) ---
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) { // <--- ESTE ES EL QUE FALTABA
+    public void setId(Integer id) {
         this.id = id;
     }
 
