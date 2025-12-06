@@ -30,17 +30,12 @@ public class Veterinarian {
     @Column(name = "email")
     private String email;
 
-    // Esta columna existe en tu BD pero NO se usa en tu API.
-    // Para evitar errores, la ignoramos:
     @Column(name = "id_veterinarian", nullable = true)
     private String idVeterinarian;
 
-    // También existe "nombre" en tu tabla.
-    // Lo agregamos aunque no lo uses.
     @Column(name = "nombre")
     private String nombre;
 
-    // ======== Getters & Setters ========
     public Integer getId() {
         return id;
     }
