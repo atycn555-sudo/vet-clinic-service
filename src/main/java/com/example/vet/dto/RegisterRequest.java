@@ -3,9 +3,8 @@ package com.example.vet.dto;
 public class RegisterRequest {
     private String username;
     private String password;
-    private String role; // USER o ADMIN
+    private String role;
 
-    // Getters y Setters
     public String getUsername() {
         return username;
     }
