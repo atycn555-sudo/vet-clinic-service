@@ -19,9 +19,7 @@ public class SupplierService {
     @Autowired
     private ModelMapper modelMapper; 
 
-    // --- MÉTODO CORREGIDO: Recibe SupplierRequestDTO ---
     public Supplier saveSupplier(SupplierRequestDTO requestDTO) {
-        // Convertimos el DTO a Entidad aquí en el servicio
         Supplier supplier = modelMapper.map(requestDTO, Supplier.class);
         return supplierRepository.save(supplier);
     }
@@ -34,11 +32,9 @@ public class SupplierService {
         return supplierRepository.findById(id);
     }
 
-    // --- MÉTODO CORREGIDO: Recibe SupplierRequestDTO ---
     public Optional<Supplier> updateSupplier(Integer id, SupplierRequestDTO requestDTO) {
         return supplierRepository.findById(id)
                 .map(existingSupplier -> {
-                    // Actualizamos los datos usando el DTO
                     modelMapper.map(requestDTO, existingSupplier);
                     return supplierRepository.save(existingSupplier);
                 });
