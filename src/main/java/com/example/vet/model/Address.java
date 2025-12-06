@@ -7,22 +7,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "direcciones") // O "addresses"
+@Table(name = "direcciones")
 public class Address {
 
-    @Id // <--- ESTO ES VITAL
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; // <--- Debe llamarse "id", no "addressId"
+    private Integer id;
 
     private String street;
     private String city;
     private String state;
     private String zipCode;
 
-    // --- Constructor Vacío ---
     public Address() {}
 
-    // --- GETTERS Y SETTERS MANUALES (OBLIGATORIOS) ---
     public Integer getId() {
         return id;
     }
