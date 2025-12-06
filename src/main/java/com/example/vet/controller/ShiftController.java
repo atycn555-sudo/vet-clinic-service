@@ -1,6 +1,6 @@
 package com.example.vet.controller;
 
-import java.util.List; // Import correcto
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import com.example.vet.service.ShiftService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/shifts") // Ajusta la ruta si es necesario
+@RequestMapping("/api/shifts")
 public class ShiftController {
 
     private final ShiftService shiftService;
@@ -30,17 +30,15 @@ public class ShiftController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ShiftResponseDTO>> getAll() { // Nombre corregido
+    public ResponseEntity<List<ShiftResponseDTO>> getAll() {
         return ResponseEntity.ok(shiftService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ShiftResponseDTO> getById(@PathVariable Integer id) { // Nombre corregido
+    public ResponseEntity<ShiftResponseDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(shiftService.getById(id));
     }
 
-    // Si necesitas buscar por veterinario, asegúrate de crear ese método en el servicio primero.
-    // Por ahora lo comento para que no de error si no existe en el servicio.
     /*
     @GetMapping("/veterinarian/{id}")
     public ResponseEntity<List<ShiftResponseDTO>> getByVeterinarian(@PathVariable Integer id) {
