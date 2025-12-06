@@ -2,8 +2,8 @@ package com.example.vet.model;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity; // O Date, según uses
-import jakarta.persistence.GeneratedValue; // O Double, según uses
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -11,22 +11,20 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "facturas") // O "invoices"
+@Table(name = "facturas")
 public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private LocalDate date; // Fecha de emisión
-    private Double totalAmount; // Total de la factura
+    private LocalDate date;
+    private Double totalAmount;
 
-    // Relación con el Cliente
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 
-    // --- CONSTRUCTORES ---
     public Invoice() {
     }
 
