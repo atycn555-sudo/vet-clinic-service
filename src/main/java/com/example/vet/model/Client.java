@@ -26,7 +26,6 @@ public class Client {
     private String firstName;
     private String lastName;
     
-    // Permitimos que el email sea nulo en la entidad también
     @Column(nullable = true)
     private String email;
     
@@ -35,21 +34,17 @@ public class Client {
     @Column(name = "user_id")
     private Integer userId;
 
-    // Relación con Dirección: Al guardar el Cliente, se guarda la Dirección
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    // Relación con Mascotas
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     @JsonIgnore 
     private List<Pet> pets;
 
-    // --- CONSTRUCTOR ---
     public Client() {
     }
 
-    // --- GETTERS Y SETTERS MANUALES ---
 
     public Integer getId() {
         return id;
