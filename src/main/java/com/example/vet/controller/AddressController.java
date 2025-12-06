@@ -20,12 +20,11 @@ import com.example.vet.service.AddressService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/addresses") // Ruta base para direcciones
+@RequestMapping("/api/v1/addresses")
 public class AddressController {
 
     private final AddressService addressService;
 
-    // Constructor Manual
     public AddressController(AddressService addressService) {
         this.addressService = addressService;
     }
@@ -38,12 +37,12 @@ public class AddressController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AddressResponseDTO>> getAll() { // Nombre corregido
+    public ResponseEntity<List<AddressResponseDTO>> getAll() {
         return ResponseEntity.ok(addressService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AddressResponseDTO> getById(@PathVariable Integer id) { // Nombre corregido
+    public ResponseEntity<AddressResponseDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(addressService.getById(id));
     }
 
@@ -54,7 +53,7 @@ public class AddressController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        addressService.delete(id); // Nombre corregido
+        addressService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
