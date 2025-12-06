@@ -17,7 +17,6 @@ public class AddressService {
     private final AddressRepository addressRepository;
     private final ModelMapper modelMapper;
 
-    // Constructor Manual (Sin Lombok)
     public AddressService(AddressRepository addressRepository, ModelMapper modelMapper) {
         this.addressRepository = addressRepository;
         this.modelMapper = modelMapper;
@@ -31,7 +30,7 @@ public class AddressService {
 
     public AddressResponseDTO getById(Integer id) {
         Address address = addressRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dirección no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Address not found"));
         return modelMapper.map(address, AddressResponseDTO.class);
     }
 
@@ -43,11 +42,10 @@ public class AddressService {
 
     public AddressResponseDTO update(Integer id, AddressRequestDTO request) {
         Address address = addressRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dirección no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Address not found"));
         
-        // Actualizamos los datos
         modelMapper.map(request, address);
-        address.setId(id); // Aseguramos que el ID no cambie
+        address.setId(id); 
         
         Address updatedAddress = addressRepository.save(address);
         return modelMapper.map(updatedAddress, AddressResponseDTO.class);
@@ -55,7 +53,7 @@ public class AddressService {
 
     public void delete(Integer id) {
         if (!addressRepository.existsById(id)) {
-            throw new RuntimeException("Dirección no encontrada");
+            throw new RuntimeException("Address not found");
         }
         addressRepository.deleteById(id);
     }
