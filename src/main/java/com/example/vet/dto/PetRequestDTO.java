@@ -4,15 +4,14 @@ import java.time.LocalDate;
 
 public class PetRequestDTO {
     private String name;
-    private String species; // Lo manejaremos como texto para no fallar por FK
+    private String species;
     private String breed;
     private String color;
     private LocalDate birthDate; 
-    private Integer clientId; // ID del dueño
+    private Integer clientId;
 
     public PetRequestDTO() {} 
 
-    // --- GETTERS Y SETTERS ---
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
