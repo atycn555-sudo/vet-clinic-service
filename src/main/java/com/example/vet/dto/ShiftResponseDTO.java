@@ -9,11 +9,9 @@ public class ShiftResponseDTO {
     private LocalTime endTime;
     private Integer idVeterinarian;
     
-    // --- NUEVOS CAMPOS (Resuelven la ambigüedad) ---
     private String veterinarianFirstName; 
     private String veterinarianLastName;
 
-    // Getters y Setters
     public Integer getIdShift() { return idShift; }
     public void setIdShift(Integer idShift) { this.idShift = idShift; }
     
@@ -29,7 +27,6 @@ public class ShiftResponseDTO {
     public Integer getIdVeterinarian() { return idVeterinarian; }
     public void setIdVeterinarian(Integer idVeterinarian) { this.idVeterinarian = idVeterinarian; }
 
-    // --- GETTERS Y SETTERS CORREGIDOS ---
     public String getVeterinarianFirstName() { 
         return veterinarianFirstName; 
     }
