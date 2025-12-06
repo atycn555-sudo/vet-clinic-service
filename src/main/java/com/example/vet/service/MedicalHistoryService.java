@@ -20,7 +20,6 @@ public class MedicalHistoryService {
     private final PetRepository petRepository;
     private final ModelMapper modelMapper;
 
-    // Constructor Manual
     public MedicalHistoryService(MedicalHistoryRepository medicalHistoryRepository, 
                                  PetRepository petRepository, 
                                  ModelMapper modelMapper) {
@@ -37,11 +36,10 @@ public class MedicalHistoryService {
 
     public MedicalHistoryResponseDTO getById(Integer id) {
         MedicalHistory history = medicalHistoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Historial no encontrado"));
+                .orElseThrow(() -> new RuntimeException("History not found"));
         return modelMapper.map(history, MedicalHistoryResponseDTO.class);
     }
 
-    // CORRECCIÓN AQUÍ: Usamos findByPetId
     public List<MedicalHistoryResponseDTO> getByPetId(Integer petId) {
         // Antes llamabas a findByPetIdPet, ahora usamos el nombre correcto:
         return medicalHistoryRepository.findByPetId(petId).stream()
@@ -51,7 +49,7 @@ public class MedicalHistoryService {
 
     public MedicalHistoryResponseDTO create(MedicalHistoryRequestDTO request) {
         Pet pet = petRepository.findById(request.getPetId())
-                .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Pet not found"));
 
         MedicalHistory history = modelMapper.map(request, MedicalHistory.class);
         history.setPet(pet);
@@ -62,11 +60,11 @@ public class MedicalHistoryService {
 
     public MedicalHistoryResponseDTO update(Integer id, MedicalHistoryRequestDTO request) {
         MedicalHistory history = medicalHistoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Historial no encontrado"));
+                .orElseThrow(() -> new RuntimeException("History not found"));
 
         if (history.getPet() != null && !history.getPet().getId().equals(request.getPetId())) {
             Pet pet = petRepository.findById(request.getPetId())
-                    .orElseThrow(() -> new RuntimeException("Mascota no encontrada"));
+                    .orElseThrow(() -> new RuntimeException("Pet not found"));
             history.setPet(pet);
         }
 
@@ -79,7 +77,7 @@ public class MedicalHistoryService {
 
     public void delete(Integer id) {
         if (!medicalHistoryRepository.existsById(id)) {
-            throw new RuntimeException("Historial no encontrado");
+            throw new RuntimeException("History not found");
         }
         medicalHistoryRepository.deleteById(id);
     }
