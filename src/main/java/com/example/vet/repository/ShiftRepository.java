@@ -10,6 +10,5 @@ import com.example.vet.model.Shift;
 @Repository
 public interface ShiftRepository extends JpaRepository<Shift, Integer> {
     
-    // Esta línea hace la magia: busca dentro del objeto 'veterinarian' el campo 'idVeterinarian'
 List<Shift> findByVeterinarian_Id(Integer veterinarianId);
 }
