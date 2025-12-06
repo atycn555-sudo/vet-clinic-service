@@ -34,27 +34,18 @@ public class VeterinarianController {
         this.modelMapper = modelMapper;
     }
 
-    // -------------------------------------------------------
-    // 1. OBTENER TODOS LOS VETERINARIOS
-    // -------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<VeterinarianResponseDTO>> getAllVeterinarians() {
         List<VeterinarianResponseDTO> vets = veterinarianService.getAll();
         return ResponseEntity.ok(vets);
     }
 
-    // -------------------------------------------------------
-    // 2. OBTENER VETERINARIO POR ID
-    // -------------------------------------------------------
     @GetMapping("/{id}")
     public ResponseEntity<VeterinarianResponseDTO> getVeterinarianById(@PathVariable Integer id) {
         VeterinarianResponseDTO vet = veterinarianService.getById(id);
         return ResponseEntity.ok(vet);
     }
 
-    // -------------------------------------------------------
-    // 3. CREAR VETERINARIO (SOLO ADMIN)
-    // -------------------------------------------------------
     @PostMapping
     public ResponseEntity<VeterinarianResponseDTO> createVeterinarian(
             @Valid @RequestBody VeterinarianRequestDTO request) {
@@ -66,9 +57,6 @@ public class VeterinarianController {
         return ResponseEntity.created(location).body(saved);
     }
 
-    // -------------------------------------------------------
-    // 4. ACTUALIZAR VETERINARIO
-    // -------------------------------------------------------
     @PutMapping("/{id}")
     public ResponseEntity<VeterinarianResponseDTO> updateVeterinarian(
             @PathVariable Integer id,
@@ -78,9 +66,6 @@ public class VeterinarianController {
         return ResponseEntity.ok(updated);
     }
 
-    // -------------------------------------------------------
-    // 5. ELIMINAR VETERINARIO
-    // -------------------------------------------------------
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVeterinarian(@PathVariable Integer id) {
         veterinarianService.delete(id);
