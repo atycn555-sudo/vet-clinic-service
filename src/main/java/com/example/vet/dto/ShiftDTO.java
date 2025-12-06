@@ -3,13 +3,11 @@ package com.example.vet.dto;
 import java.time.LocalTime;
 
 public class ShiftDTO {
-    // No necesitamos ID aquí porque es para crear
     private String dayOfWeek;
     private LocalTime startTime;
     private LocalTime endTime;
-    private Integer idVeterinarian; // Solo recibimos el ID del veterinario
+    private Integer idVeterinarian;
 
-    // Getters y Setters
     public String getDayOfWeek() { return dayOfWeek; }
     public void setDayOfWeek(String dayOfWeek) { this.dayOfWeek = dayOfWeek; }
     
