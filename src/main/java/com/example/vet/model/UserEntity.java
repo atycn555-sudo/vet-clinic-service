@@ -3,7 +3,7 @@ package com.example.vet.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users") // nombre de la tabla en la BD
+@Table(name = "users")
 public class UserEntity {
 
     @Id
@@ -17,9 +17,8 @@ public class UserEntity {
     private String password;
 
     @Column(nullable = false, length = 20)
-    private String role; // valores: "USER" o "ADMIN"
+    private String role;
 
-    // ✅ Constructores
     public UserEntity() {
     }
 
@@ -29,7 +28,6 @@ public class UserEntity {
         this.role = role;
     }
 
-    // ✅ Getters y Setters
     public Long getId() {
         return id;
     }
