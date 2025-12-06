@@ -26,7 +26,6 @@ import com.example.vet.service.CustomUserDetailsService;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    // ✅ Rutas públicas
     private static final String[] WHITE_LIST_URL = {
             "/index.html",
             "/v3/api-docs/**",
@@ -45,9 +44,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll() // 👈 público para registro
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
 
-                        // USER + ADMIN
                         .requestMatchers(HttpMethod.POST, "/api/v1/clients/**", "/api/v1/pets/**")
                         .hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/medical-history/**").hasAnyRole("USER", "ADMIN")
@@ -63,7 +61,6 @@ public class SecurityConfig {
                                 "/api/v1/medical-history/**")
                         .hasAnyRole("USER", "ADMIN")
 
-                        // SOLO ADMIN
                         .requestMatchers(HttpMethod.POST,
                                 "/api/v1/species/**",
                                 "/api/v1/vaccines/**",
@@ -75,20 +72,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
 
-                        // DEFAULT
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 
-    // ✅ PasswordEncoder único
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ AuthenticationProvider usando CustomUserDetailsService
     @Bean
     public AuthenticationProvider authenticationProvider(CustomUserDetailsService customUserDetailsService,
                                                          PasswordEncoder encoder) {
