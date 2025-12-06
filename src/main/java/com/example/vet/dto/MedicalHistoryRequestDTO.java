@@ -1,21 +1,20 @@
 package com.example.vet.dto;
 
-import java.time.LocalDate; // O Date
+import java.time.LocalDate;
 
 public class MedicalHistoryRequestDTO {
     private String description;
     private LocalDate date;
-    private Integer petId; // ESTE ES EL QUE FALTABA
+    private Integer petId;
 
     public MedicalHistoryRequestDTO() {}
 
-    // --- GETTERS Y SETTERS ---
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
 
-    public Integer getPetId() { return petId; } // <--- ¡AQUÍ ESTÁ!
+    public Integer getPetId() { return petId; } 
     public void setPetId(Integer petId) { this.petId = petId; }
 }
