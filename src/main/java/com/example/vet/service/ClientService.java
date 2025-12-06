@@ -35,7 +35,6 @@ public class ClientService {
     }
 
     public ClientResponseDTO getByEmail(String email) {
-        // CORRECCIÓN AQUÍ: Usamos findByEmail en lugar de findByAppUser_Email
         Client client = clientRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
         return modelMapper.map(client, ClientResponseDTO.class);
