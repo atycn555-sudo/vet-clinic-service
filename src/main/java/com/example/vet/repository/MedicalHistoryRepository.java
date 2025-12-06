@@ -10,8 +10,6 @@ import com.example.vet.model.MedicalHistory;
 @Repository
 public interface MedicalHistoryRepository extends JpaRepository<MedicalHistory, Integer> {
 
-    // CORRECCIÓN: El nombre estándar es findBy + NombreDeLaVariable + Id
-    // Esto funcionará si en MedicalHistory tienes "private Pet pet;" o "private Integer petId;"
     
     List<MedicalHistory> findByPetId(Integer petId);
     
