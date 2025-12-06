@@ -19,7 +19,6 @@ public class ShiftService {
     private final VeterinarianRepository veterinarianRepository;
     private final ModelMapper modelMapper;
 
-    // Constructor Manual (Sin Lombok)
     public ShiftService(ShiftRepository shiftRepository, 
                         VeterinarianRepository veterinarianRepository, 
                         ModelMapper modelMapper) {
@@ -36,14 +35,13 @@ public class ShiftService {
 
     public ShiftResponseDTO getById(Integer id) {
         Shift shift = shiftRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Turno no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Shift not found"));
         return modelMapper.map(shift, ShiftResponseDTO.class);
     }
 
     public ShiftResponseDTO create(ShiftRequestDTO request) {
-        // Buscamos el veterinario por ID
         Veterinarian vet = veterinarianRepository.findById(request.getIdVeterinarian())
-                .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Veterinarian not found"));
 
         Shift shift = modelMapper.map(request, Shift.class);
         shift.setVeterinarian(vet);
@@ -54,17 +52,14 @@ public class ShiftService {
 
     public ShiftResponseDTO update(Integer id, ShiftRequestDTO request) {
         Shift shift = shiftRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Turno no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Shift not found"));
 
-        // Validamos si cambió el veterinario
-        // AQUÍ ESTABA EL ERROR: Usamos .getId() en lugar de .getIdVeterinarian()
         if (shift.getVeterinarian() != null && !shift.getVeterinarian().getId().equals(request.getIdVeterinarian())) {
             Veterinarian vet = veterinarianRepository.findById(request.getIdVeterinarian())
-                    .orElseThrow(() -> new RuntimeException("Veterinario no encontrado"));
+                    .orElseThrow(() -> new RuntimeException("Veterinarian not found"));
             shift.setVeterinarian(vet);
         }
 
-        // Mapeamos los otros datos (fecha, hora, etc.)
         modelMapper.map(request, shift);
         shift.setId(id); // Aseguramos el ID
 
@@ -74,7 +69,7 @@ public class ShiftService {
 
     public void delete(Integer id) {
         if (!shiftRepository.existsById(id)) {
-            throw new RuntimeException("Turno no encontrado");
+            throw new RuntimeException("Shift not found");
         }
         shiftRepository.deleteById(id);
     }
