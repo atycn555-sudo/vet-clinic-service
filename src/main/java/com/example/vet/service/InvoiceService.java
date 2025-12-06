@@ -19,7 +19,6 @@ public class InvoiceService {
     private final ClientRepository clientRepository;
     private final ModelMapper modelMapper;
 
-    // Constructor Manual (Sin Lombok)
     public InvoiceService(InvoiceRepository invoiceRepository, 
                           ClientRepository clientRepository, 
                           ModelMapper modelMapper) {
@@ -36,14 +35,13 @@ public class InvoiceService {
 
     public InvoiceResponseDTO getById(Integer id) {
         Invoice invoice = invoiceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Invoice not found"));
         return modelMapper.map(invoice, InvoiceResponseDTO.class);
     }
 
     public InvoiceResponseDTO create(InvoiceRequestDTO request) {
-        // Buscamos el cliente
         Client client = clientRepository.findById(request.getIdClient())
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         Invoice invoice = modelMapper.map(request, Invoice.class);
         invoice.setClient(client);
@@ -54,13 +52,11 @@ public class InvoiceService {
 
     public InvoiceResponseDTO update(Integer id, InvoiceRequestDTO request) {
         Invoice invoice = invoiceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Invoice not found"));
 
-        // Validamos si cambió el cliente
-        // CORRECCIÓN AQUÍ: Usamos .getId() en lugar de .getIdClient()
         if (invoice.getClient() != null && !invoice.getClient().getId().equals(request.getIdClient())) {
             Client client = clientRepository.findById(request.getIdClient())
-                    .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+                    .orElseThrow(() -> new RuntimeException("Customer not found"));
             invoice.setClient(client);
         }
 
@@ -73,12 +69,11 @@ public class InvoiceService {
 
     public void delete(Integer id) {
         if (!invoiceRepository.existsById(id)) {
-            throw new RuntimeException("Factura no encontrada");
+            throw new RuntimeException("Invoice not found");
         }
         invoiceRepository.deleteById(id);
     }
     
-    // Método extra por si lo necesitas: Buscar facturas por ID de cliente
     /*
     public List<InvoiceResponseDTO> getInvoicesByClientId(Integer clientId) {
         // Asegúrate de que este método 'findByClientId' exista en tu InvoiceRepository antes de descomentar
