@@ -6,8 +6,6 @@ public class SupplierSimpleResponseDTO {
     private String contactName;
     private String phone;
 
-    // --- Getters y Setters Manuales ---
-
     public Integer getIdSupplier() {
         return idSupplier;
     }
