@@ -25,32 +25,26 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    // Constructor Manual
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ClientResponseDTO>> getAll() { // Nombre corregido
+    public ResponseEntity<List<ClientResponseDTO>> getAll() {
         return ResponseEntity.ok(clientService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientResponseDTO> getById(@PathVariable Integer id) { // Nombre corregido
+    public ResponseEntity<ClientResponseDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(clientService.getById(id));
     }
 
-    // Método para buscar por email (útil para integraciones)
     @GetMapping("/email/{email}")
     public ResponseEntity<ClientResponseDTO> getByEmail(@PathVariable String email) {
         // En el servicio lo llamamos getByEmail
         return ResponseEntity.ok(clientService.getByEmail(email)); 
     }
 
-    /* NOTA: El método "getClientByUserEmail" que tenías antes solía sacar el email del Token.
-       Como en este servicio básico no estamos extrayendo el usuario del token en el Controller,
-       usaremos el método de arriba o simplemente el CRUD estándar.
-    */
 
     @PostMapping
     public ResponseEntity<ClientResponseDTO> create(@RequestBody @Valid ClientRequestDTO request) {
